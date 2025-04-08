@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="container">
+    <h2>Assign Training Session to {{ student.user.get_full_name }}</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Assign Session</button>
+    </form>
+    <a href="{% url 'trainers:trainer_list' %}" class="btn btn-secondary mt-2">Back</a>
+  </div>
+{% endblock %}

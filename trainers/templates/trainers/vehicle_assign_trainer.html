@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Assign Trainer & Vehicle</h2>
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="trainer" class="form-label">Select Trainer:</label>
+            <select name="trainer" id="trainer" class="form-control">
+                {% for trainer in trainers %}
+                <option value="{{ trainer.id }}">{{ trainer.user.get_full_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="vehicle" class="form-label">Select Vehicle:</label>
+            <select name="vehicle" id="vehicle" class="form-control">
+                {% for vehicle in vehicles %}
+                <option value="{{ vehicle.id }}">{{ vehicle.vehicle_number }} - {{ vehicle.make}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Assign</button>
+        <a href="{% url 'admins:manage_trainers'  %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

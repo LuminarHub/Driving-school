@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Assign Students to {{ trainer.user.get_full_name }}</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Type</th>
+                <th>Session Date</th>
+                <th>Time Slot</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for session in sessions %}
+            <tr>
+                <td>{{ session.student.user.get_full_name }}</td>
+                <td>{{ session.student.phone_number }}</td>
+                <td>{{ session.student.student_type }}</td>
+                <td>{{ session.session_date }}</td>
+                <td>{{ session.get_time_slot_display }}</td>
+                <td>
+                    <a href="{% url 'trainers:assign_trainer_vehicles' session.id %}" class="btn btn-sm btn-warning">
+                        Assign Trainer & Vehicle
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No students available for assignment.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'trainers:trainer_detail' trainer.id %}" class="btn btn-secondary">Back to Trainer</a>
+</div>
+{% endblock %}

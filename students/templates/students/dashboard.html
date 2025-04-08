@@ -1,0 +1,124 @@
+{% extends 'students/base.html' %}
+
+{% block content %}
+<div class="container">
+  <h2>Welcome {{ student.user.first_name }}</h2>
+
+  <!-- Package and Remaining Sessions Status -->
+  {% if student_package %}
+    <div class="alert alert-info mt-3">
+      <h4>Your Training Package: {{ student_package.package.name }}</h4>
+      <p>
+        <span class="badge bg-primary">{{ student_package.remaining_sessions }} sessions remaining</span>
+        <span class="badge bg-secondary">{{ student_package.package.sessions }} total sessions</span>
+      </p>
+      {% if student_package.remaining_sessions > 0 %}
+        <a href="{% url 'students:book_slot' %}" class="btn btn-primary">
+          <i class="fas fa-calendar-plus"></i> Book Another Session
+        </a>
+      {% else %}
+        <p>You've used all your training sessions. Need more training?</p>
+        <a href="{% url 'students:courses' %}" class="btn btn-warning">
+          <i class="fas fa-shopping-cart"></i> Purchase Another Package
+        </a>
+      {% endif %}
+    </div>
+  {% else %}
+    <div class="alert alert-warning mt-3">
+      <p>⚠️ You haven't purchased any training package yet.</p>
+      <a href="{% url 'students:courses' %}" class="btn btn-warning">💳 View Packages</a>
+    </div>
+  {% endif %}
+
+  <div class="row mt-4">
+    <!-- Upcoming Sessions -->
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">
+            <i class="fas fa-calendar"></i> Your Training Sessions
+            {% if upcoming_sessions %}
+              <span class="badge bg-light text-dark float-end">{{ upcoming_sessions|length }}</span>
+            {% endif %}
+          </h5>
+        </div>
+        <div class="card-body">
+          {% if upcoming_sessions %}
+            <ul class="list-group">
+              {% for session in upcoming_sessions %}
+                <li class="list-group-item {% if not session.trainer %}list-group-item-warning{% elif session.completed %}list-group-item-success{% endif %}">
+                  <strong>{{ session.session_date|date:"l, F j, Y" }}</strong> at {{ session.get_time_slot_display }}<br>
+                  {% if session.trainer %}
+                    <span class="text-success"><i class="fas fa-user-check"></i> Trainer: {{ session.trainer.user.get_full_name }}</span><br>
+                  {% else %}
+                    <span class="text-warning"><i class="fas fa-hourglass-half"></i> Waiting for trainer assignment</span><br>
+                  {% endif %}
+                  
+                  {% if session.vehicle %}
+                    <span class="text-success"><i class="fas fa-car"></i> Vehicle: {{ session.vehicle.vehicle_number }} - {{session.vehicle.make}} ({{ session.vehicle.get_vehicle_type_display }})</span>
+                  {% else %}
+                    <span class="text-warning"><i class="fas fa-hourglass-half"></i> Waiting for vehicle assignment</span>
+                  {% endif %}
+                  
+                  <div class="mt-2">
+                    {% if session.completed %}
+                      <span class="badge bg-success">Completed</span>
+                    {% else %}
+                      <span class="badge bg-warning text-dark">Pending</span>
+                    {% endif %}
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <div class="text-center py-4">
+              <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+              <p>No upcoming sessions scheduled.</p>
+              {% if student_package.remaining_sessions > 0 %}
+                <a href="{% url 'students:book_slot' %}" class="btn btn-outline-primary">
+                  Book Now
+                </a>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Tutorials -->
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">
+            <i class="fas fa-book"></i> Learning Resources
+            {% if tutorials %}
+              <span class="badge bg-light text-dark float-end">{{ tutorials|length }}</span>
+            {% endif %}
+          </h5>
+        </div>
+        <div class="card-body">
+          {% if tutorials %}
+            <div class="list-group">
+              {% for tutorial in tutorials %}
+                <a href="{% url 'students:view_tutorial' tutorial.id %}" class="list-group-item list-group-item-action">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ tutorial.title }}</h5>
+                  </div>
+                  <p class="mb-1">{{ tutorial.description|truncatechars:100 }}</p>
+                  <small class="text-muted"><i class="fas fa-clock"></i> {{ tutorial.created_at|date:"F j, Y" }}</small>
+                </a>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="text-center py-4">
+              <i class="fas fa-book-open fa-3x text-muted mb-3"></i>
+              <p>No tutorials available at this time.</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

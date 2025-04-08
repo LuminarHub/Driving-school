@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h2>{{ trainer.user.get_full_name }}</h2>
+        </div>
+        <div class="card-body">
+            <p><strong>Email:</strong> {{ trainer.user.email }}</p>
+            <p><strong>Specialization:</strong> {{ trainer.specialization }}</p>
+            <p><strong>Experience:</strong> {{ trainer.experience }} years</p>
+            <p><strong>Availability:</strong> {{ trainer.availability }}</p>
+            <p><strong>Type:</strong> {% if trainer.is_remote %}Remote{% else %}Local{% endif %}</p>
+
+            <div class="mt-3">
+                <a href="{% url 'trainers:trainer_update' trainer.id %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'trainers:trainer_delete' trainer.id %}" class="btn btn-danger">Delete</a>
+                {% comment %} <a href="{% url 'trainers:trainer_schedule' trainer.id %}" class="btn btn-info">View Schedule</a> {% endcomment %}
+                <a href="{% url 'trainers:students_to_assign' trainer.id %}" class="btn btn-primary">Assign Students</a>
+                <a href="{% url 'admins:manage_trainers' %}" class="btn btn-secondary">Go Back</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assigned Students Section -->
+    <div class="mt-4">
+        <h3>Assigned Students</h3>
+        {% if unique_students %}
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Package</th>
+                    <th>Purchase Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sp in unique_students %}
+                    <tr>
+                        <td>{{ sp.student.user.get_full_name }}</td>
+                        <td>{{ sp.student_package.package.name }}</td>
+                        <td>{{ sp.student_package.purchase_date|date:"Y-m-d" }}</td>
+                        <td>
+                            <a href="{% url 'students:student_detail' sp.student.id %}" class="btn btn-sm btn-info">View</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No students assigned to this trainer.</p>
+        {% endif %}
+    </div>
+    
+
+    <!-- Training Sessions Section -->
+    <!-- Training Sessions Section -->
+<div class="mt-4">
+    <h3>Training Sessions</h3>
+    {% if assigned_sessions %}
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Student Name</th>
+                <th>Session Date</th>
+                <th>Time Slot</th>
+                <th>Vehicle</th>
+                <th>Status</th>
+                <th>Update</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for session in assigned_sessions %}
+            <tr>
+                <td>{{ session.student.user.get_full_name }}</td>
+                <td>{{ session.session_date }}</td>
+                <td>{{ session.get_time_slot_display }}</td>
+                <td>{{ session.vehicle.make }} {{ session.vehicle.model }}</td>
+                <td>
+                    {% if session.completed %}
+                        <span class="badge bg-success">Completed</span>
+                    {% else %}
+                        <span class="badge bg-warning">Pending</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <form method="post" action="{% url 'trainers:trainer_detail' trainer.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="session_id" value="{{ session.id }}">
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            {% if session.completed %} Mark Pending {% else %} Mark Completed {% endif %}
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No training sessions assigned to this trainer.</p>
+    {% endif %}
+</div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Schedule for {{ trainer.user.get_full_name }}</h2>
+    <!-- Calendar or schedule display goes here -->
+    <div class="calendar-container">
+        <!-- This would be populated with actual schedule data -->
+        <p>Schedule implementation goes here.</p>
+    </div>
+    
+    <div class="mt-3">
+        <a href="{% url 'trainers:trainer_detail' trainer.id %}" class="btn btn-secondary">Back to Trainer</a>
+    </div>
+</div>
+{% endblock %}

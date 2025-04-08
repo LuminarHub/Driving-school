@@ -1,0 +1,25 @@
+<h2>Unassigned Training Sessions</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Student</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Assign</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for session in sessions %}
+    <tr>
+      <td>{{ session.student.user.get_full_name }}</td>
+      <td>{{ session.session_date }}</td>
+      <td>{{ session.time_slot }}</td>
+      <td>
+        <a href="{% url 'trainers:assign_trainer_to_session' session.id %}">Assign</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">All sessions assigned ✅</td></tr>
+    {% endfor %}
+  </tbody>
+</table>

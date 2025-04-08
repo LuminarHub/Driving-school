@@ -1,0 +1,36 @@
+{% extends 'students/base.html' %}
+
+{% block content %}
+<div class="container">
+  <h2>Available Tutorials</h2>
+  
+  <div class="row mt-4">
+    {% if tutorials %}
+      {% for tutorial in tutorials %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">{{ tutorial.title }}</h5>
+              <p class="card-text">{{ tutorial.description|truncatechars:100 }}</p>
+              <a href="{% url 'students:view_tutorial' tutorial.id %}" class="btn btn-primary">View Tutorial</a>
+            </div>
+            <div class="card-footer text-muted">
+              Last updated: {{ tutorial.updated_at|date:"M d, Y" }}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="col-12">
+        <div class="alert alert-info">
+          No tutorials available at this time. Check back later!
+        </div>
+      </div>
+    {% endif %}
+  </div>
+  
+  <div class="mt-4">
+    <a href="{% url 'students:dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+  </div>
+</div>
+{% endblock %}

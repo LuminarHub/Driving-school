@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Trainers</h2>
+    <a href="{% url 'trainers:trainer_create' %}" class="btn btn-primary mb-3">Add New Trainer</a>
+    
+    <div class="row">
+        {% for trainer in trainers %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ trainer.user.get_full_name }}</h5>
+                    <p class="card-text"><strong>Specialization:</strong> {{ trainer.specialization }}</p>
+                    <p class="card-text"><strong>Experience:</strong> {{ trainer.experience }} years</p>
+                    <p class="card-text"><strong>Type:</strong> {% if trainer.is_remote %}Remote{% else %}Local{% endif %}</p>
+                    <a href="{% url 'trainers:trainer_detail' trainer.id %}" class="btn btn-info">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p>No trainers available.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

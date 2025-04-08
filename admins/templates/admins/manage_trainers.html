@@ -1,0 +1,51 @@
+<!-- admins/templates/admins/manage_trainers.html -->
+{% extends 'base.html' %}
+
+{% block title %}Manage Trainers{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Manage Trainers</h1>
+    
+    <div class="mt-3 mb-3">
+        <a href="{% url 'admins:admin_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+        
+        <a href="{% url 'trainers:trainer_create' %}" class="btn btn-primary">Add New Trainer</a>
+    </div>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Specialization</th>
+                <th>Remote?</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trainer in trainers %}
+            <tr>
+                <td>{{ trainer.id }}</td>
+                <td>{{ trainer.user.first_name }} {{ trainer.user.last_name }}</td>
+                <td>{{ trainer.user.email }}</td>
+                <td>{{ trainer.phone }}</td>
+                <td>{{ trainer.specialization }}</td>
+                <td>{{ trainer.is_remote|yesno:"Yes,No" }}</td>
+                <td>
+                    <a href="{%url 'trainers:trainer_detail' trainer.id%}" class="btn btn-sm btn-info">View</a>
+                    <a href="{%url 'trainers:trainer_update' trainer.id%}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{%url 'trainers:trainer_delete' trainer.id%}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center">No trainers registered yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h2>Welcome {{ trainer.user.first_name }}</h2>
+
+  <div class="row mt-4">
+
+    <!-- Assigned Students -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          Assigned Students
+        </div>
+        <div class="card-body">
+          {% if assigned_students %}
+            <ul class="list-group">
+              {% for student in assigned_students %}
+                <li class="list-group-item">
+                  {{ student.user.get_full_name }} <br>
+                  <small>Email: {{ student.user.email }}</small>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No students have been assigned to you yet.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Upcoming Training Sessions -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          Your Upcoming Sessions
+        </div>
+        <div class="card-body">
+          {% if upcoming_sessions %}
+            <ul class="list-group">
+              {% for session in upcoming_sessions %}
+                <li class="list-group-item">
+                  <strong>{{ session.session_date|date:"l, F j, Y" }}</strong> at {{ session.get_time_slot_display }}
+                  <br>
+                  <small>Student: {{ session.student.user.get_full_name }}</small>
+                  <br>
+                  <small>Vehicle: {{ session.vehicle.model }} ({{ session.vehicle.get_vehicle_type_display }})</small>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>You have no upcoming sessions scheduled.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Profile Access -->
+  <div class="row mt-4">
+    <div class="col-md-12 text-center">
+      <a href="{% url 'trainers:trainer_update' trainer.id %}" class="btn btn-primary">Update Profile</a>
+    </div>
+  </div>
+</div>
+
+<!-- 🆕 Add your action buttons here inside container -->
+<div class="row mt-4">
+  <div class="col-md-12 text-center">
+    <a href="{% url 'trainers:students_to_assign' trainer_id=trainer.id %}" class="btn btn-success mx-2">
+      Assign Students
+    </a>
+    <a href="{% url 'trainers:unassigned_sessions' %}" class="btn btn-info mx-2">
+      Unassigned Sessions
+    </a>
+  </div>
+</div>
+{% endblock %}

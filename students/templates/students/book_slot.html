@@ -1,0 +1,120 @@
+{% extends 'students/base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Book Your Training Slot</h3>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <!-- Display remaining sessions prominently -->
+                    <div class="alert alert-success mb-4">
+                        <h5><i class="fas fa-check-circle"></i> Sessions Information</h5>
+                        <p>You have <strong>{{ remaining_sessions }}</strong> training sessions remaining in your package.</p>
+                    </div>
+
+                    <form method="POST" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.session_date.id_for_label }}">{{ form.session_date.label }}</label>
+                                    {{ form.session_date }}
+                                    {% if form.session_date.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.session_date.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ form.time_slot.id_for_label }}">{{ form.time_slot.label }}</label>
+                                    {{ form.time_slot }}
+                                    {% if form.time_slot.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.time_slot.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <div class="booking-info alert alert-info mt-3">
+                            <h5><i class="fas fa-info-circle"></i> Booking Information</h5>
+                            <ul>
+                                <li>Sessions are 90 minutes long</li>
+                                <li>Please arrive 15 minutes before your scheduled time</li>
+                                <li>Bring your valid ID and learner's permit</li>
+                                <li>Cancellations must be made 24 hours in advance</li>
+                                <li>You can book up to {{ remaining_sessions }} sessions with your current package</li>
+                            </ul>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-calendar-check"></i> Book Slot
+                            </button>
+                            <a href="{% url 'students:dashboard' %}" class="btn btn-outline-secondary btn-lg ml-2">
+                                <i class="fas fa-arrow-left"></i> Back to Dashboard
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4 shadow">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">Available Time Slots</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Time Slot</th>
+                                    <th>Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for slot_value, slot_display in form.fields.time_slot.choices %}
+                                <tr>
+                                    <td>{{ slot_display }}</td>
+                                    <td>90 minutes</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add Bootstrap form styling
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('{{ form.session_date.id_for_label }}').classList.add('form-control');
+        document.getElementById('{{ form.time_slot.id_for_label }}').classList.add('form-control');
+    });
+</script>
+{% endblock %}

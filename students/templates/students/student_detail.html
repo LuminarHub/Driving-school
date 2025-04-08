@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ student.user.get_full_name }}</h2>
+    <p><strong>Phone:</strong> {{ student.phone_number|default:"Not provided" }}</p>
+    <p><strong>Address:</strong> {{ student.address|default:"Not provided" }}</p>
+    <p><strong>Emergency Contact:</strong> {{ student.emergency_contact }}</p>
+    <p><strong>Student Type:</strong> {{ student.get_student_type_display }}</p>
+    {% if student.trainer %}
+        <p><strong>Trainer:</strong> {{ student.trainer.user.get_full_name }}</p>
+    {% else %}
+        <p><strong>Trainer:</strong> Not assigned</p>
+    {% endif %}
+
+    {% if student.vehicle %}
+        <p><strong>Vehicle:</strong> {{ student.vehicle.vehicle_number }}</p>
+    {% else %}
+        <p><strong>Vehicle:</strong> Not assigned</p>
+    {% endif %}
+</div>
+{% endblock %}

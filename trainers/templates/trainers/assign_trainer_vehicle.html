@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Assign Trainer & Vehicle to {{ student.user.get_full_name }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+    
+        {% if student.trainer %}
+            <p class="alert alert-success">
+                ✅ Trainer <strong>{{ student.trainer.user.get_full_name }}</strong> already assigned.
+            </p>
+        {% else %}
+            <p class="alert alert-warning">
+                ⚠️ This student has not been assigned a trainer yet.
+            </p>
+        {% endif %}
+    
+        <button type="submit" class="btn btn-success">Assign</button>
+    
+        {% if student.trainer %}
+            <a href="{% url 'trainers:students_to_assign' student.trainer.id %}" class="btn btn-secondary">Back</a>
+        {% else %}
+            <a href="{% url 'trainers:trainer_list' %}" class="btn btn-secondary">Back</a>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}
+
