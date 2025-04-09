@@ -16,17 +16,58 @@
         <a href="{% url 'students:book_slot' %}" class="btn btn-primary">
           <i class="fas fa-calendar-plus"></i> Book Another Session
         </a>
-      {% else %}
-        <p>You've used all your training sessions. Need more training?</p>
-        <a href="{% url 'students:courses' %}" class="btn btn-warning">
-          <i class="fas fa-shopping-cart"></i> Purchase Another Package
-        </a>
       {% endif %}
     </div>
   {% else %}
     <div class="alert alert-warning mt-3">
       <p>⚠️ You haven't purchased any training package yet.</p>
       <a href="{% url 'students:courses' %}" class="btn btn-warning">💳 View Packages</a>
+    </div>
+  {% endif %}
+
+  <!-- All Purchased Packages Section -->
+  {% if all_packages %}
+    <div class="card shadow-sm mt-3 mb-4">
+      <div class="card-header bg-info text-white">
+        <h5 class="mb-0">
+          <i class="fas fa-shopping-cart"></i> Your Purchased Package
+          <span class="badge bg-light text-dark float-end">{{ all_packages|length }}</span>
+        </h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Package Name</th>
+                <th>Purchase Date</th>
+                <th>Total Sessions</th>
+                <th>Remaining Sessions</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for pkg in all_packages %}
+                <tr {% if pkg == student_package %}class="table-primary"{% endif %}>
+                  <td><strong>{{ pkg.package.name }}</strong></td>
+                  <td>{{ pkg.purchase_date|date:"F j, Y" }}</td>
+                  <td>{{ pkg.package.sessions }}</td>
+                  <td>{{ pkg.remaining_sessions }}</td>
+                  <td>
+                    {% if pkg == student_package and pkg.remaining_sessions > 0 %}
+                      <span class="badge bg-success">Active</span>
+                    {% elif pkg.remaining_sessions > 0 %}
+                      <span class="badge bg-info">Available</span>
+                    {% else %}
+                      <span class="badge bg-secondary">Completed</span>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   {% endif %}
 

@@ -19,15 +19,9 @@ def register_view(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-
-            # Ensure the UserProfile is created before accessing it
             user_profile, created = UserProfile.objects.get_or_create(user=user)
-
-            # Log the user in after registration
             login(request, user)
             messages.success(request, 'Registration successful! Welcome to Advanced Motor Driving School.')
-
-            # Redirect based on user type
             if user_profile.user_type == 'student':
                 return redirect('students:dashboard')
             elif user_profile.user_type == 'trainer':

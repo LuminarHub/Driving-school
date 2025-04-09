@@ -6,7 +6,8 @@ class Vehicle(models.Model):
     VEHICLE_TYPES = (
         ('CAR', 'Car'),
         ('SCOOTY', 'Scooty'),
-        ('OTHER', 'Other')
+        ('OTHER', 'Other'),
+        ('SCOOTY&CAR','SCOOTY & CAR')
     )
 
     vehicle_number = models.CharField(max_length=20, unique=True)

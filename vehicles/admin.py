@@ -5,3 +5,4 @@ from vehicles.models import Vehicle,VehicleAssignmentHistory,MaintenanceRecord
 admin.site.register(Vehicle)
 admin.site.register(VehicleAssignmentHistory)
 admin.site.register(MaintenanceRecord)
+# admin.site.register(MaintenanceRecord)

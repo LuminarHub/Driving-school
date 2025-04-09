@@ -37,6 +37,8 @@ from django import forms
 from .models import TrainingSession
 from django.utils import timezone
 from datetime import date
+from datetime import timedelta
+
 
 class SlotBookingForm(forms.Form):
     session_date = forms.DateField(
@@ -56,8 +58,11 @@ class SlotBookingForm(forms.Form):
 
     def clean_session_date(self):
         session_date = self.cleaned_data.get('session_date')
-        if session_date and session_date < timezone.now().date():
-            raise forms.ValidationError("Date cannot be in the past.")
+        min_date = timezone.now().date() + timedelta(days=1)  # Ensure booking is at least a day in advance
+
+        if session_date and session_date < min_date:
+            raise forms.ValidationError("You must book at least one day in advance. Booking for today is not allowed.")
+
         return session_date
 
     def clean(self):

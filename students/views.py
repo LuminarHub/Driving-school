@@ -21,7 +21,11 @@ def dashboard(request):
     try:
         student = Student.objects.get(user=request.user)
         
+        # Get the active package (latest one with payment status True)
         student_package = StudentPackage.objects.filter(student=student, payment_status=True).last()
+        
+        # Get all purchased packages
+        all_packages = StudentPackage.objects.filter(student=student, payment_status=True).order_by('-purchase_date')
         
         upcoming_sessions = TrainingSession.objects.filter(
             student=student,
@@ -42,6 +46,7 @@ def dashboard(request):
             student_type="local"
         )
         student_package = None
+        all_packages = []
         upcoming_sessions = []
         completed_sessions = []
     
@@ -50,6 +55,7 @@ def dashboard(request):
     context = {
         'student': student,
         'student_package': student_package,
+        'all_packages': all_packages,
         'upcoming_sessions': upcoming_sessions,
         'completed_sessions': completed_sessions,
         'tutorials': tutorials,
@@ -319,25 +325,22 @@ from django.http import HttpResponseForbidden
 #         form = SlotBookingForm(student=student)
 
 #     return render(request, 'students/book_slot.html', {'form': form})
+from django.utils.timezone import now
 
 @login_required
 def book_slot(request):
     try:
         user = request.user
         student = Student.objects.get(user=user)
-        print("Student profile found:", student)  
     except Student.DoesNotExist:
-        print("Student profile does not exist")
         return HttpResponseForbidden("You must be logged in as a student to book a session.")
 
     try:
-        # Check if the student has a valid package with payment status
         student_package = StudentPackage.objects.get(student=student, payment_status=True)
     except StudentPackage.DoesNotExist:
         messages.error(request, "You haven't purchased a package yet.")
         return redirect('students:courses')
 
-    # Check if the student has used all their sessions
     if student_package.remaining_sessions <= 0:
         messages.info(request, "You've used all sessions in your package. Please purchase a new package.")
         return redirect('students:dashboard')
@@ -347,6 +350,11 @@ def book_slot(request):
         if form.is_valid():
             session_date = form.cleaned_data['session_date']
             time_slot = form.cleaned_data['time_slot']
+
+            # Check if the student has already booked a session for this date
+            if TrainingSession.objects.filter(student=student, session_date=session_date).exists():
+                messages.warning(request, "You have already booked a session for this date. Please choose another day.")
+                return redirect('students:book_slot')
 
             # Create a training session for the student
             TrainingSession.objects.create(
