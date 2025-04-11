@@ -17,4 +17,5 @@ urlpatterns = [
     path('assign-trainer-vehicle/<int:student_id>/', views.assign_trainer_vehicle, name='assign_trainer_vehicle'),
     path('unassigned-sessions/', views.unassigned_sessions, name='unassigned_sessions'),
     path('assign-session/<int:session_id>/', views.assign_trainer_to_session, name='assign_training_session'),
+    path('reviews/', views.view_reviews, name='view_reviews'),
 ]

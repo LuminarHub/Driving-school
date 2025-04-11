@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Student, TrainingSession, Tutorial,StudentPackage,Payment,Trainer,Course,TrainingPackage,Vehicle
-from .forms import StudentProfileForm, SessionBookingForm,PaymentForm
+from .models import Student, TrainingSession, Tutorial,StudentPackage,Payment,Trainer,Course,TrainingPackage,Vehicle,Review 
+from .forms import StudentProfileForm, SessionBookingForm,PaymentForm,ReviewForm
 import uuid 
 from django.http import HttpResponse
 from django.conf import settings
@@ -20,7 +20,8 @@ def dashboard(request):
     """Student dashboard showing upcoming sessions and available tutorials"""
     try:
         student = Student.objects.get(user=request.user)
-        
+        student_reviews = Review.objects.filter(student=student).order_by('-created_at')
+
         # Get the active package (latest one with payment status True)
         student_package = StudentPackage.objects.filter(student=student, payment_status=True).last()
         
@@ -59,6 +60,7 @@ def dashboard(request):
         'upcoming_sessions': upcoming_sessions,
         'completed_sessions': completed_sessions,
         'tutorials': tutorials,
+        'student_reviews': student_reviews,
     }
     return render(request, 'students/dashboard.html', context)
 
@@ -416,3 +418,54 @@ def assign_sessions(student_package):
                 )
                 created += 1
         start_date += timedelta(days=1)
+        
+        
+
+@login_required
+def submit_review(request, session_id):
+    session = get_object_or_404(TrainingSession, id=session_id)
+    if not session.completed:
+        messages.error(request, "You can only review completed sessions.")
+        return redirect('students:dashboard')
+        
+    if hasattr(session, 'review'):
+        messages.error(request, "You have already submitted a review for this session.")
+        return redirect('students:dashboard')
+    student = Student.objects.get(user=request.user.id)
+    stu = get_object_or_404(Student,id=student.id)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.session = session
+            review.student = stu
+            review.trainer = session.trainer
+            review.save()
+            messages.success(request, "Your review has been submitted successfully!")
+            return redirect('students:dashboard')
+    else:
+        form = ReviewForm()
+    
+    return render(request, 'students/submit_review.html', {
+        'form': form,
+        'session': session
+    })
+
+@login_required
+def edit_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id)
+    
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your review has been updated!")
+            return redirect('students:dashboard')
+    else:
+        form = ReviewForm(instance=review)
+    
+    return render(request, 'students/submit_review.html', {
+        'form': form,
+        'session': review.session,
+        'edit': True
+    })

@@ -260,3 +260,16 @@ def assign_trainer_to_session(request, session_id):
         'form': form,
         'session': session,
     })
+    
+from django.db.models import Avg
+from students.models import Review
+
+@login_required
+def view_reviews(request):
+    reviews = Review.objects.all().order_by('-created_at')
+    average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
+    
+    return render(request, 'trainers/view_reviews.html', {
+        'reviews': reviews,
+        'average_rating': average_rating
+    })

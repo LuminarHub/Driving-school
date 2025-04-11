@@ -16,4 +16,6 @@ urlpatterns = [
     path('book-slot/', views.book_slot, name='book_slot'),
     path('sessions/history/', views.session_history, name='session_history'),
     path('tutorials/', views.tutorial_list, name='tutorials'),
+    path('submit-review/<int:session_id>/', views.submit_review, name='submit_review'),
+    path('edit-review/<int:review_id>/', views.edit_review, name='edit_review'),
 ]

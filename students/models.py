@@ -190,3 +190,18 @@ class Payment(models.Model):
         return f"Payment for {self.student_package.student.user.username} - {self.status}"
 
 
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+class Review(models.Model):
+    session = models.OneToOneField(TrainingSession, on_delete=models.CASCADE, related_name='review')
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='reviews')
+    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, related_name='reviews',null=True)
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Review by {self.student.user.get_full_name()} for session on {self.session.session_date}"
+    
+    class Meta:
+        ordering = ['-created_at']

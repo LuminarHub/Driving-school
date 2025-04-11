@@ -7,6 +7,7 @@ class Vehicle(models.Model):
         ('CAR', 'Car'),
         ('SCOOTY', 'Scooty'),
         ('OTHER', 'Other'),
+        ('HEAVY','HEAVY'),
         ('SCOOTY&CAR','SCOOTY & CAR')
     )
 

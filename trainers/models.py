@@ -4,18 +4,17 @@ from django.utils import timezone
 from django.core.validators import MinValueValidator
 
 class Trainer(models.Model):
-    # Link to the User model (from accounts app)
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='driving_trainer_profile'  
     )
     
-    # Trainer's specialization (car, scooty, both, etc.)
     SPECIALIZATION_CHOICES = [
         ('CAR', 'Car'),
         ('SCOOTY', 'Scooty'),
         ('BOTH', 'Both Car and Scooty'),
+        ('HEAVY','HEAVY'),
         ('OTHER', 'Other')
     ]
     specialization = models.CharField(

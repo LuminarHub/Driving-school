@@ -34,7 +34,7 @@ class PaymentForm(forms.ModelForm):
 
 
 from django import forms
-from .models import TrainingSession
+from .models import TrainingSession,Review
 from django.utils import timezone
 from datetime import date
 from datetime import timedelta
@@ -81,3 +81,13 @@ class SlotBookingForm(forms.Form):
 
         return cleaned_data
 
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'comment']
+        widgets = {
+            'rating': forms.Select(choices=[(i, i) for i in range(1, 6)]),
+            'comment': forms.Textarea(attrs={'rows': 4, 'class': 'form-control'}),
+        }

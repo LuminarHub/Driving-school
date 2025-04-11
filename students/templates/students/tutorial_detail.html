@@ -16,6 +16,38 @@
       width: 100%;
       height: 100%;
   }
+  
+  .question-card {
+      margin-bottom: 1.5rem;
+      border: 1px solid #dee2e6;
+      border-radius: 0.25rem;
+  }
+  
+  .question-header {
+      background-color: #f8f9fa;
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid #dee2e6;
+      font-weight: bold;
+  }
+  
+  .question-body {
+      padding: 1.25rem;
+  }
+  
+  .answer-options {
+      margin-top: 1rem;
+  }
+  
+  .answer-option {
+      margin-bottom: 0.5rem;
+  }
+  
+  .correct-answer {
+      background-color: #d4edda;
+      border-radius: 0.25rem;
+      padding: 0.5rem;
+      margin-top: 1rem;
+  }
 </style>
 <div class="container">
   <h2>{{ tutorial.title }}</h2>
@@ -29,14 +61,365 @@
       {% if tutorial.video_url %}
       <div class="tutorial-video mt-4">
         <h4>Video Tutorial</h4>
-        <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="{{ tutorial.video_url }}" allowfullscreen></iframe>
+        <div class="video-container">
+          <iframe src="{{ tutorial.video_url }}" allowfullscreen></iframe>
         </div>
       </div>
       {% endif %}
     </div>
   </div>
   
+  <!-- Driving Test Questions Section -->
+  <div class="card mt-4">
+    <div class="card-header">
+      <h3>Learner's Driving Test - Practice Questions</h3>
+    </div>
+    <div class="card-body">
+      <p class="mb-4">Test your knowledge with these 20 practice questions for your learner's driving test.</p>
+      
+      <!-- Question 1 -->
+      <div class="question-card">
+        <div class="question-header">Question 1</div>
+        <div class="question-body">
+          <p>What should you do when approaching a yellow traffic light?</p>
+          <div class="answer-options">
+            <div class="answer-option">A. Speed up to get through the intersection</div>
+            <div class="answer-option">B. Stop if it is safe to do so</div>
+            <div class="answer-option">C. Ignore it if no other vehicles are present</div>
+            <div class="answer-option">D. Honk your horn to alert other drivers</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: B.</strong> Stop if it is safe to do so. If you cannot stop safely, proceed with caution.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 2 -->
+      <div class="question-card">
+        <div class="question-header">Question 2</div>
+        <div class="question-body">
+          <p>When may you legally exceed the speed limit?</p>
+          <div class="answer-options">
+            <div class="answer-option">A. When overtaking another vehicle</div>
+            <div class="answer-option">B. When driving on a highway</div>
+            <div class="answer-option">C. When driving late at night with no traffic</div>
+            <div class="answer-option">D. You may never legally exceed the speed limit</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: D.</strong> You may never legally exceed the speed limit, regardless of circumstances.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 3 -->
+      <div class="question-card">
+        <div class="question-header">Question 3</div>
+        <div class="question-body">
+          <p>What does a solid white line along the right edge of the highway indicate?</p>
+          <div class="answer-options">
+            <div class="answer-option">A. The edge of the road</div>
+            <div class="answer-option">B. A bike lane</div>
+            <div class="answer-option">C. A pedestrian walkway</div>
+            <div class="answer-option">D. A passing zone</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: A.</strong> The solid white line marks the edge of the road and the boundary of the driving lane.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 4 -->
+      <div class="question-card">
+        <div class="question-header">Question 4</div>
+        <div class="question-body">
+          <p>What should you do if your vehicle starts to skid?</p>
+          <div class="answer-options">
+            <div class="answer-option">A. Apply the brakes firmly</div>
+            <div class="answer-option">B. Steer in the opposite direction of the skid</div>
+            <div class="answer-option">C. Steer in the direction you want to go</div>
+            <div class="answer-option">D. Accelerate to regain control</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: C.</strong> Steer in the direction you want to go and avoid sudden braking.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 5 -->
+      <div class="question-card">
+        <div class="question-header">Question 5</div>
+        <div class="question-body">
+          <p>When driving in fog, you should use:</p>
+          <div class="answer-options">
+            <div class="answer-option">A. High beam headlights</div>
+            <div class="answer-option">B. Low beam headlights</div>
+            <div class="answer-option">C. Hazard lights while driving</div>
+            <div class="answer-option">D. No lights during daylight hours</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: B.</strong> Use low beam headlights in fog as high beams reflect off the fog and reduce visibility.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 6 -->
+      <div class="question-card">
+        <div class="question-header">Question 6</div>
+        <div class="question-body">
+          <p>What is the proper following distance in good conditions?</p>
+          <div class="answer-options">
+            <div class="answer-option">A. 1 car length for every 10 mph</div>
+            <div class="answer-option">B. 2-second following distance</div>
+            <div class="answer-option">C. 3-second following distance</div>
+            <div class="answer-option">D. 5 car lengths at all speeds</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: C.</strong> A 3-second following distance is recommended in good driving conditions.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 7 -->
+      <div class="question-card">
+        <div class="question-header">Question 7</div>
+        <div class="question-body">
+          <p>When approaching a school bus with flashing red lights, you must:</p>
+          <div class="answer-options">
+            <div class="answer-option">A. Slow down and proceed with caution</div>
+            <div class="answer-option">B. Stop at least 20 feet away from the bus</div>
+            <div class="answer-option">C. Pass slowly on the left</div>
+            <div class="answer-option">D. Change lanes and continue driving</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: B.</strong> Stop at least 20 feet away from the bus and remain stopped until the red lights stop flashing.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 8 -->
+      <div class="question-card">
+        <div class="question-header">Question 8</div>
+        <div class="question-body">
+          <p>What does a flashing yellow arrow at an intersection mean?</p>
+          <div class="answer-options">
+            <div class="answer-option">A. You must come to a complete stop</div>
+            <div class="answer-option">B. You have the right of way</div>
+            <div class="answer-option">C. You may turn in the direction of the arrow after yielding to oncoming traffic</div>
+            <div class="answer-option">D. The light will soon turn red</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: C.</strong> You may turn in the direction of the arrow after yielding to oncoming traffic and pedestrians.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 9 -->
+      <div class="question-card">
+        <div class="question-header">Question 9</div>
+        <div class="question-body">
+          <p>What should you do if you have a tire blowout while driving?</p>
+          <div class="answer-options">
+            <div class="answer-option">A. Brake hard immediately</div>
+            <div class="answer-option">B. Grip the steering wheel firmly and gradually slow down</div>
+            <div class="answer-option">C. Turn quickly to the side of the road</div>
+            <div class="answer-option">D. Accelerate to maintain control</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: B.</strong> Grip the steering wheel firmly, maintain your direction, and gradually slow down before pulling safely off the road.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 10 -->
+      <div class="question-card">
+        <div class="question-header">Question 10</div>
+        <div class="question-body">
+          <p>When are you required to turn on your headlights?</p>
+          <div class="answer-options">
+            <div class="answer-option">A. Only at night</div>
+            <div class="answer-option">B. From sunset to sunrise</div>
+            <div class="answer-option">C. When visibility is less than 1000 feet</div>
+            <div class="answer-option">D. From sunset to sunrise and when visibility is poor</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: D.</strong> Headlights are required from sunset to sunrise and any time visibility is poor (fog, rain, snow, etc.).
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 11 -->
+      <div class="question-card">
+        <div class="question-header">Question 11</div>
+        <div class="question-body">
+          <p>What should you do when an emergency vehicle with flashing lights approaches?</p>
+          <div class="answer-options">
+            <div class="answer-option">A. Speed up to get out of the way</div>
+            <div class="answer-option">B. Pull over to the right and stop</div>
+            <div class="answer-option">C. Continue at the same speed</div>
+            <div class="answer-option">D. Change lanes</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: B.</strong> Pull over to the right edge of the road if possible and stop until the emergency vehicle has passed.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 12 -->
+      <div class="question-card">
+        <div class="question-header">Question 12</div>
+        <div class="question-body">
+          <p>What does a diamond-shaped sign indicate?</p>
+          <div class="answer-options">
+            <div class="answer-option">A. Stop</div>
+            <div class="answer-option">B. Yield</div>
+            <div class="answer-option">C. Warning</div>
+            <div class="answer-option">D. No passing zone</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: C.</strong> Diamond-shaped signs are warning signs that alert drivers to potential hazards ahead.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 13 -->
+      <div class="question-card">
+        <div class="question-header">Question 13</div>
+        <div class="question-body">
+          <p>What is the proper hand signal for a right turn?</p>
+          <div class="answer-options">
+            <div class="answer-option">A. Left arm extended straight out</div>
+            <div class="answer-option">B. Left arm bent upward at a 90-degree angle</div>
+            <div class="answer-option">C. Left arm bent downward at a 90-degree angle</div>
+            <div class="answer-option">D. Right arm extended straight out</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: B.</strong> Left arm bent upward at a 90-degree angle indicates a right turn.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 14 -->
+      <div class="question-card">
+        <div class="question-header">Question 14</div>
+        <div class="question-body">
+          <p>When approaching a railroad crossing with no warning signals or gates, you should:</p>
+          <div class="answer-options">
+            <div class="answer-option">A. Maintain your speed and cross quickly</div>
+            <div class="answer-option">B. Slow down, look and listen for trains, then proceed with caution</div>
+            <div class="answer-option">C. Come to a complete stop in all cases</div>
+            <div class="answer-option">D. Honk your horn before crossing</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: B.</strong> Slow down, look and listen for trains, then proceed with caution if no train is approaching.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 15 -->
+      <div class="question-card">
+        <div class="question-header">Question 15</div>
+        <div class="question-body">
+          <p>What is hydroplaning?</p>
+          <div class="answer-options">
+            <div class="answer-option">A. Driving through deep water safely</div>
+            <div class="answer-option">B. When tires lose contact with the road due to water</div>
+            <div class="answer-option">C. A specialized driving technique for wet conditions</div>
+            <div class="answer-option">D. Accelerating on wet pavement</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: B.</strong> Hydroplaning occurs when your tires lose contact with the road surface and ride on a layer of water.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 16 -->
+      <div class="question-card">
+        <div class="question-header">Question 16</div>
+        <div class="question-body">
+          <p>What is the minimum following distance in adverse conditions like rain or fog?</p>
+          <div class="answer-options">
+            <div class="answer-option">A. 2 seconds</div>
+            <div class="answer-option">B. 3 seconds</div>
+            <div class="answer-option">C. 4 seconds</div>
+            <div class="answer-option">D. 6 seconds or more</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: D.</strong> In adverse conditions, you should increase your following distance to at least 6 seconds or more.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 17 -->
+      <div class="question-card">
+        <div class="question-header">Question 17</div>
+        <div class="question-body">
+          <p>When parallel parking, your vehicle should be positioned how far from the curb?</p>
+          <div class="answer-options">
+            <div class="answer-option">A. 6 inches</div>
+            <div class="answer-option">B. 12 inches</div>
+            <div class="answer-option">C. 18 inches</div>
+            <div class="answer-option">D. 24 inches</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: A.</strong> Your vehicle should be positioned no more than 6 inches (15 cm) from the curb when parallel parked.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 18 -->
+      <div class="question-card">
+        <div class="question-header">Question 18</div>
+        <div class="question-body">
+          <p>What does a solid yellow line in the center of the road indicate?</p>
+          <div class="answer-options">
+            <div class="answer-option">A. Passing is allowed</div>
+            <div class="answer-option">B. No passing zone</div>
+            <div class="answer-option">C. Construction ahead</div>
+            <div class="answer-option">D. Two-way traffic</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: B.</strong> A solid yellow line indicates a no passing zone where passing is not permitted.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 19 -->
+      <div class="question-card">
+        <div class="question-header">Question 19</div>
+        <div class="question-body">
+          <p>What should you do if you miss your exit on a highway?</p>
+          <div class="answer-options">
+            <div class="answer-option">A. Stop and back up on the shoulder</div>
+            <div class="answer-option">B. Make a U-turn using the median</div>
+            <div class="answer-option">C. Continue to the next exit</div>
+            <div class="answer-option">D. Cross the divider to turn around</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: C.</strong> Continue to the next exit and then find a safe way to return to your route.
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 20 -->
+      <div class="question-card">
+        <div class="question-header">Question 20</div>
+        <div class="question-body">
+          <p>What is the meaning of a red X above a lane on a highway?</p>
+          <div class="answer-options">
+            <div class="answer-option">A. The lane is reserved for emergency vehicles</div>
+            <div class="answer-option">B. The lane is closed to traffic</div>
+            <div class="answer-option">C. The lane is for high-occupancy vehicles only</div>
+            <div class="answer-option">D. Construction is ahead in that lane</div>
+          </div>
+          <div class="correct-answer">
+            <strong>Correct Answer: B.</strong> A red X above a lane indicates that the lane is closed to traffic and you should not drive in it.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <a href="https://www.rtoexam.com/kerala/en/exam" class="btn btn-secondary mt-3">More</a>
   <a href="{% url 'students:dashboard' %}" class="btn btn-secondary mt-3">Back to Dashboard</a>
 </div>
 {% endblock %}
