@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from trainers.models import Trainer
-from .forms import AssignTrainerVehicleForm,StudentAssignmentForm
+from .forms import AssignTrainerVehicleForm,StudentAssignmentForm,TrainerUserForm
 from students.models import Student
 from django.utils import timezone
 from trainers.forms import TrainerForm,TrainerProfileForm,TrainingSessionForm
@@ -40,18 +40,40 @@ def trainer_detail(request, trainer_id):
         'unique_students': unique_students.values(),
     })
     
-    
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 @login_required
 def trainer_create(request):
     if request.method == 'POST':
-        form = TrainerForm(request.POST)
+        form = TrainerUserForm(request.POST)
         if form.is_valid():
-            trainer = form.save()
+            # Create user first
+            user = User.objects.create_user(
+                username=form.cleaned_data['username'],
+                email=form.cleaned_data['email'],
+                password=form.cleaned_data['password'],
+                first_name=form.cleaned_data['first_name'],
+                last_name=form.cleaned_data['last_name']
+            )
+            
+            # Then create trainer with the new user
+            trainer = Trainer.objects.create(
+                user=user,
+                specialization=form.cleaned_data['specialization'],
+                experience=form.cleaned_data['experience'],
+                availability=form.cleaned_data['availability'],
+                is_remote=form.cleaned_data['is_remote'],
+                license_number=form.cleaned_data['license_number']
+            )
+            
             messages.success(request, 'Trainer created successfully.')
-            return redirect('admins:manage_trainers', trainer_id=trainer.id)
+            return redirect('admins:manage_trainers')
     else:
-        form = TrainerForm()
+        form = TrainerUserForm()
     return render(request, 'trainers/trainer_form.html', {'form': form, 'action': 'Create'})
+
 
 @login_required
 def trainer_update(request, trainer_id):

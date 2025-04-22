@@ -11,6 +11,23 @@
         <a href="{% url 'admins:admin_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
     </div>
     
+    <!-- Search Form -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" class="form-inline">
+                <div class="input-group mb-2 mr-sm-2">
+                    <input type="text" name="search" class="form-control" placeholder="Search by name, email or phone" value="{{ request.GET.search }}">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+                {% if request.GET.search %}
+                    <a href="{% url 'admins:manage_students' %}" class="btn btn-outline-secondary mb-2">Clear</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+    
     <table class="table table-striped">
         <thead>
             <tr>
@@ -34,12 +51,11 @@
                     <a href="{%url 'students:student_detail' student.id%}" class="btn btn-sm btn-info">View</a>
                     <!-- <a href="#" class="btn btn-sm btn-warning">Edit</a>
                     <a href="#" class="btn btn-sm btn-danger">Delete</a> -->
-
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="6" class="text-center">No students registered yet.</td>
+                <td colspan="6" class="text-center">No students found.</td>
             </tr>
             {% endfor %}
         </tbody>

@@ -47,13 +47,29 @@ def admin_dashboard(request):
     }
     return render(request, 'admins/dashboard.html', context)
 
+
 @login_required
 def manage_students(request):
     if not hasattr(request.user, 'admin'):
         return redirect('home')
         
     students = Student.objects.all()
-    return render(request, 'admins/manage_students.html', {'students': students})
+    
+    # Handle search
+    search_query = request.GET.get('search', '')
+    if search_query:
+        students = students.filter(
+            Q(user__first_name__icontains=search_query) | 
+            Q(user__last_name__icontains=search_query) | 
+            Q(user__email__icontains=search_query)  |
+            Q(student_type__icontains=search_query)
+        )
+    
+    return render(request, 'admins/manage_students.html', {
+        'students': students,
+    })
+
+from django.db.models import Q  
 
 @login_required
 def manage_trainers(request):
@@ -61,7 +77,20 @@ def manage_trainers(request):
         return redirect('home')
         
     trainers = Trainer.objects.all()
-    return render(request, 'admins/manage_trainers.html', {'trainers': trainers})
+    
+    # Handle search
+    search_query = request.GET.get('search', '')
+    if search_query:
+        trainers = trainers.filter(
+            Q(user__first_name__icontains=search_query) | 
+            Q(user__last_name__icontains=search_query) | 
+            Q(user__email__icontains=search_query) | 
+            Q(specialization__icontains=search_query)
+        )
+    
+    return render(request, 'admins/manage_trainers.html', {
+        'trainers': trainers,
+    })
 
 @login_required
 def manage_vehicles(request):

@@ -2,14 +2,156 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>{{ action }} Trainer</h2>
-    <form method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            {{ form.as_p }}
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">{{ action }} Trainer</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="card mb-4 border-info">
+                            <div class="card-header bg-info text-white">
+                                <h4 class="mb-0">User Information</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="id_first_name" class="form-label fw-bold">First Name</label>
+                                        <input type="text" name="first_name" id="id_first_name" class="form-control {% if form.first_name.errors %}is-invalid{% endif %}" value="{{ form.first_name.value|default:'' }}" required>
+                                        {% if form.first_name.errors %}
+                                        <div class="invalid-feedback">{{ form.first_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="id_last_name" class="form-label fw-bold">Last Name</label>
+                                        <input type="text" name="last_name" id="id_last_name" class="form-control {% if form.last_name.errors %}is-invalid{% endif %}" value="{{ form.last_name.value|default:'' }}" required>
+                                        {% if form.last_name.errors %}
+                                        <div class="invalid-feedback">{{ form.last_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="id_username" class="form-label fw-bold">Username</label>
+                                    <input type="text" name="username" id="id_username" class="form-control {% if form.username.errors %}is-invalid{% endif %}" value="{{ form.username.value|default:'' }}" required>
+                                    {% if form.username.errors %}
+                                    <div class="invalid-feedback">{{ form.username.errors.0 }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Create a unique username for login</div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="id_email" class="form-label fw-bold">Email</label>
+                                    <input type="email" name="email" id="id_email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" value="{{ form.email.value|default:'' }}" required>
+                                    {% if form.email.errors %}
+                                    <div class="invalid-feedback">{{ form.email.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        {% comment %} <label for="id_password" class="form-label fw-bold">Password</label> {% endcomment %}
+                                        <input type="password" name="password" id="id_password" class="form-control {% if form.password.errors %}is-invalid{% endif %}" value="Admin@123" hidden required>
+                                        {% if form.password.errors %}
+                                        <div class="invalid-feedback">{{ form.password.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        {% comment %} <label for="id_confirm_password" class="form-label fw-bold">Confirm Password</label> {% endcomment %}
+                                        <input type="password" name="confirm_password" id="id_confirm_password" class="form-control {% if form.confirm_password.errors %}is-invalid{% endif %}"  value="Admin@123" hidden required>
+                                        {% if form.confirm_password.errors %}
+                                        <div class="invalid-feedback">{{ form.confirm_password.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-4 border-success">
+                            <div class="card-header bg-success text-white">
+                                <h4 class="mb-0">Trainer Information</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="id_specialization" class="form-label fw-bold">Specialization</label>
+                                        <select name="specialization" id="id_specialization" class="form-select {% if form.specialization.errors %}is-invalid{% endif %}">
+                                            <option value="" {% if not form.specialization.value %}selected{% endif %}>Select specialization</option>
+                                            <option value="CAR" {% if form.specialization.value == 'CAR' %}selected{% endif %}>Car</option>
+                                            <option value="SCOOTY" {% if form.specialization.value == 'SCOOTY' %}selected{% endif %}>Scooty</option>
+                                            <option value="BOTH" {% if form.specialization.value == 'BOTH' %}selected{% endif %}>Both Car and Scooty</option>
+                                            <option value="HEAVY" {% if form.specialization.value == 'HEAVY' %}selected{% endif %}>Heavy</option>
+                                            <option value="OTHER" {% if form.specialization.value == 'OTHER' %}selected{% endif %}>Other</option>
+                                        </select>
+                                        {% if form.specialization.errors %}
+                                        <div class="invalid-feedback">{{ form.specialization.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="id_experience" class="form-label fw-bold">Experience (years)</label>
+                                        <input type="number" name="experience" id="id_experience" min="0" class="form-control {% if form.experience.errors %}is-invalid{% endif %}" value="{{ form.experience.value|default:0 }}">
+                                        {% if form.experience.errors %}
+                                        <div class="invalid-feedback">{{ form.experience.errors.0 }}</div>
+                                        {% endif %}
+                                        <div class="form-text">Years of experience as a driving trainer</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="id_availability" class="form-label fw-bold">Availability</label>
+                                        <select name="availability" id="id_availability" class="form-select {% if form.availability.errors %}is-invalid{% endif %}">
+                                            <option value="WEEKDAY" {% if form.availability.value == 'WEEKDAY' %}selected{% endif %}>Weekdays Only</option>
+                                            <option value="WEEKEND" {% if form.availability.value == 'WEEKEND' %}selected{% endif %}>Weekends Only</option>
+                                            <option value="MORNING" {% if form.availability.value == 'MORNING' %}selected{% endif %}>Morning Shifts Only</option>
+                                            <option value="EVENING" {% if form.availability.value == 'EVENING' %}selected{% endif %}>Evening Shifts Only</option>
+                                            <option value="FLEXIBLE" {% if form.availability.value == 'FLEXIBLE' or not form.availability.value %}selected{% endif %}>Flexible Schedule</option>
+                                            <option value="CUSTOM" {% if form.availability.value == 'CUSTOM' %}selected{% endif %}>Custom Schedule</option>
+                                        </select>
+                                        {% if form.availability.errors %}
+                                        <div class="invalid-feedback">{{ form.availability.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="id_license_number" class="form-label fw-bold">License Number</label>
+                                        <input type="text" name="license_number" id="id_license_number" class="form-control {% if form.license_number.errors %}is-invalid{% endif %}" value="{{ form.license_number.value|default:'' }}">
+                                        {% if form.license_number.errors %}
+                                        <div class="invalid-feedback">{{ form.license_number.errors.0 }}</div>
+                                        {% endif %}
+                                        <div class="form-text">Trainer's driving license number</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" name="is_remote" id="id_is_remote" class="form-check-input {% if form.is_remote.errors %}is-invalid{% endif %}" {% if form.is_remote.value %}checked{% endif %}>
+                                    <label for="id_is_remote" class="form-check-label fw-bold">Remote Trainer</label>
+                                    {% if form.is_remote.errors %}
+                                    <div class="invalid-feedback">{{ form.is_remote.errors.0 }}</div>
+                                    {% endif %}
+                                    <div class="form-text">Whether this trainer provides remote training services</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'admins:manage_trainers' %}" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-times-circle me-1"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i> Save Trainer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a href="{% url 'admins:manage_trainers' %}" class="btn btn-secondary">Cancel</a>
-    </form>
+    </div>
 </div>
 {% endblock %}
