@@ -52,7 +52,8 @@ def dashboard(request):
         completed_sessions = []
     
     tutorials = Tutorial.objects.filter(visible=True)
-    
+    student = Student.objects.get(user=request.user)
+    student_reviews = Review.objects.filter(student=student).order_by('-created_at')
     context = {
         'student': student,
         'student_package': student_package,

@@ -101,23 +101,23 @@
                         {% endif %}
                     </div>
                     
-                    <div class="col-md-6 mb-3">
+                    {% comment %} <div class="col-md-6 mb-3">
                         <label for="{{ form.next_service_due.id_for_label }}" class="form-label">Next Service Due Date</label>
                         {{ form.next_service_due }}
                         {% if form.next_service_due.errors %}
                         <div class="text-danger">{{ form.next_service_due.errors }}</div>
                         {% endif %}
-                    </div>
+                    </div> {% endcomment %}
                 </div>
                 
                 <div class="row">
-                    <div class="col-md-6 mb-3">
+                    {% comment %} <div class="col-md-6 mb-3">
                         <label for="{{ form.odometer_reading.id_for_label }}" class="form-label">Odometer Reading (km)</label>
                         {{ form.odometer_reading }}
                         {% if form.odometer_reading.errors %}
                         <div class="text-danger">{{ form.odometer_reading.errors }}</div>
                         {% endif %}
-                    </div>
+                    </div> {% endcomment %}
                     
                     <div class="col-md-6 mb-3">
                         <label for="{{ form.insurance_expiry.id_for_label }}" class="form-label">Insurance Expiry Date</label>
@@ -128,7 +128,7 @@
                     </div>
                 </div>
                 
-                <div class="row">
+                {% comment %} <div class="row">
                     <div class="col-12 mb-3">
                         <label for="{{ form.notes.id_for_label }}" class="form-label">Notes</label>
                         {{ form.notes }}
@@ -137,7 +137,7 @@
                         {% endif %}
                         <div class="form-text">Any additional information about the vehicle</div>
                     </div>
-                </div>
+                </div> {% endcomment %}
                 
                 <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary">Save Vehicle</button>
