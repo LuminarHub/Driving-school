@@ -7,7 +7,7 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Phone</th>
+                {% comment %} <th>Phone</th> {% endcomment %}
                 <th>Type</th>
                 <th>Session Date</th>
                 <th>Time Slot</th>
@@ -18,7 +18,7 @@
             {% for session in sessions %}
             <tr>
                 <td>{{ session.student.user.get_full_name }}</td>
-                <td>{{ session.student.phone_number }}</td>
+                {% comment %} <td>{{ session.student.phone_ number }}</td> {% endcomment %}
                 <td>{{ session.student.student_type }}</td>
                 <td>{{ session.session_date }}</td>
                 <td>{{ session.get_time_slot_display }}</td>
